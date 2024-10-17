@@ -11,6 +11,8 @@ import { MessagesService } from '../services/messages.services';
 
 @Controller('messages')
 export class MessagesController {
+  // messagesService: MessagesService;
+
   constructor(private messagesService: MessagesService) {
     // TODO: Dont do this. Use dependency injection
     //this.messagesService = new MessagesService();

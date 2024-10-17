@@ -1,6 +1,7 @@
 import { MessagesRepository } from '../repositories/messages.repository';
 
 export class MessagesService {
+  // messagesRepo: MessagesRepository;
   constructor(private messagesRepo: MessagesRepository) {
     // TODO: Dont do this. Use dependency injection
     // this.messagesRepo = new MessagesRepository();
