@@ -6,17 +6,14 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
+import { handleError } from 'src/functions';
 import { CreateMessageDto } from '../dtos/create-messages.dto';
 import { MessagesService } from '../services/messages.services';
 
 @Controller('messages')
 export class MessagesController {
-  // messagesService: MessagesService;
+  constructor(private messagesService: MessagesService) {}
 
-  constructor(private messagesService: MessagesService) {
-    // TODO: Dont do this. Use dependency injection
-    //this.messagesService = new MessagesService();
-  }
   @Get()
   listMessages() {
     try {
@@ -24,18 +21,19 @@ export class MessagesController {
       if (!messages) throw new Error('No messages found');
       return messages;
     } catch (error) {
-      return { error: error.message };
+      return handleError(error);
     }
   }
 
   @Post()
-  createMessage(@Body() { content }: CreateMessageDto) {
+  async createMessage(@Body() { content }: CreateMessageDto) {
     try {
-      const message = this.messagesService.create(content);
+      const message = await this.messagesService.create(content);
       if (!message) throw new Error('Message not created');
+      console.log(message);
       return message;
     } catch (error) {
-      return { error: error.message };
+      return handleError(error);
     }
   }
   @Get('/:id')
@@ -46,7 +44,7 @@ export class MessagesController {
       if (!message) throw new NotFoundException('Message not found');
       return message;
     } catch (error) {
-      return { error: error.message, status: error.status };
+      return handleError(error);
     }
   }
 }
